@@ -95,7 +95,6 @@ def updt_medico(medico_transf, codigo_transf):
                     UPDATE cadastro SET medico = ? WHERE codigo = ? """, (medico_transf, codigo_transf))
         conn.commit()
 
-
 def filtroTodos():
     cur = conn.cursor()
     cur.execute("""
@@ -116,14 +115,14 @@ def filtroCodigo(pega_codigo):
 def filtroMedico(pega_medico):
     cur = conn.cursor()
     cur.execute("""
-                                 SELECT * FROM cadastro t where t.medico LIKE ? """, (pega_medico,))
+                                 SELECT * FROM cadastro where medico LIKE ? """, (pega_medico + "%",))
     rows = cur.fetchall()
     return rows
 
 def filtroNome(pega_nome):
     cur = conn.cursor()
     cur.execute("""
-                                 SELECT * FROM cadastro t where t.nome = ? """, (pega_nome,))
+                                 SELECT * FROM cadastro where nome LIKE  ? """, (pega_nome + "%",))
     rows = cur.fetchall()
     return rows
 

@@ -212,6 +212,7 @@ class Inicial:
         self.cadastro.mainloop()
 
     def transferencia(self):
+        nome_transf = self.input_name
         codigo_transf = self.input_codigo.get()
         leito_transf = self.input_leito.get()
         medico_transf = self.input_medico.get()
