@@ -75,13 +75,13 @@ class Inicial:
 
         # ---------------------------- Atrela ao Tkinter  ---------------------------------------#
 
-        figura = plt.Figure(figsize=(6, 6), dpi=60)
-        ax1 = figura.add_subplot(111)
+        self.figura = plt.Figure(figsize=(6, 6), dpi=60)
+        ax1 = self.figura.add_subplot(111)
 
         # ---------------------------- Cria Gráfico ---------------------------------------#
 
-        canva = FigureCanvasTkAgg(figura, self.win_initial)
-        canva.get_tk_widget().place(x=-25, y=300)
+        canva = FigureCanvasTkAgg(self.figura, self.win_initial)
+        canva.get_tk_widget().place(x=-25, y=350)
         labels = 'Leitos Vazio', 'Internos'
         sizes = [leitos_vazios, internos]
         ax1.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
@@ -95,6 +95,8 @@ class Inicial:
         self.leitos_ocupados.attributes('-alpha', 1.0)
         self.leitos_ocupados.resizable(height=False, width=False)
         self.leitos_ocupados.configure(bg=centro.from_rgb(blue_color))
+        self.leitos_ocupados.focus_force()
+        self.leitos_ocupados.grab_set()
         self.leitos_ocupados.title('Leitos Ocupados')
 
         self.codigo_texto = Label(self.leitos_ocupados, text='Código', font=('Inter', 10), bg=centro.from_rgb(blue_color))
@@ -212,7 +214,6 @@ class Inicial:
         self.cadastro.mainloop()
 
     def transferencia(self):
-        nome_transf = self.input_name
         codigo_transf = self.input_codigo.get()
         leito_transf = self.input_leito.get()
         medico_transf = self.input_medico.get()
@@ -233,7 +234,6 @@ class Inicial:
 
     def telaCria(self):
         # ---------------------------- Tela Config ---------------------------------------#
-
         self.cadastro = Toplevel()
         self.cadastro.attributes('-alpha', 0.0)
         self.cadastro.geometry('800x600')
@@ -326,6 +326,7 @@ class Inicial:
         else:
             acessobanco.insereNovo(codigo, nome, cpf, leito, medico, tipo, interno)
             self.cadastro.destroy()
+            self.figura = self.criaGrafico()
 
 
 Inicial()
