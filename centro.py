@@ -1,4 +1,4 @@
-def Centro(win):
+def centralizar(win):
     win.update_idletasks()
     width = win.winfo_width()
     frm_width = win.winfo_rootx() - win.winfo_x()
