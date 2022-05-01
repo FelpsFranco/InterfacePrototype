@@ -1,7 +1,8 @@
 import tkinter.messagebox
 from tkinter import *
 import tkinter.ttk as ttk
-import centro
+from Outros import centro
+from paciente import Paciente
 import acessobanco
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -25,7 +26,7 @@ def internacoes():
 
     # ---------------------------- Img -----------------------------------------#
 
-    logo = PhotoImage(file='./Imagens/LOGO_HOSP.png')
+    logo = PhotoImage(file='../Imagens/LOGO_HOSP.png')
 
     # ---------------------------- Labels -----------------------------------------#
 
@@ -67,7 +68,6 @@ def internacoes():
 
     win_internos.mainloop()
 
-
 def cria_grafico(janela):
     # ----------------------------- Pacientes -----------------------------------------#
 
@@ -86,12 +86,11 @@ def cria_grafico(janela):
     # ----------------------------- Cria Gráfico ---------------------------------------#
 
     canva = FigureCanvasTkAgg(figura, janela)
-    canva.get_tk_widget().place(x=-25, y=350)
+    canva.get_tk_widget().place(x=-20, y=350)
     labels = 'Leitos Vazio', 'Internos'
     sizes = [leitos_vazios, internos]
     ax1.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
     ax1.axis('equal')
-
 
 def mostra_leitos(janela):
     # ----------------------------- Cria Tela ---------------------------------------#
@@ -144,14 +143,12 @@ def evento_fechar(janela):
     janela.destroy()
     internacoes()
 
-
 def muda_interno(leitos_ocupados, codigo_input):
     muda_status = codigo_input.get()
     acessobanco.upd_interno(muda_status)
 
     leitos_ocupados.destroy()
     internacoes()
-
 
 def transfere():
     # ---------------------------- Tela Config ---------------------------------------#
@@ -167,7 +164,7 @@ def transfere():
 
     # ---------------------------- Imagens ---------------------------------------#
 
-    imagem = PhotoImage(file='./Imagens/LOGO_HOSP.png')
+    imagem = PhotoImage(file='../Imagens/LOGO_HOSP.png')
 
     # ---------------------------- Painel de Pesquisa Labels ---------------------#
     rectangle_logo = Label(cadastro, bg='white')
@@ -268,7 +265,6 @@ def transfere():
     cadastro.protocol("WM_DELETE_WINDOW", lambda: evento_fechar(cadastro))
     cadastro.mainloop()
 
-
 def transferencia(input_codigo, input_leito, input_medico, lista_dos_leitos, janela):
     codigo_transf = input_codigo.get()
     leito_transf = input_leito.get()
@@ -286,7 +282,6 @@ def transferencia(input_codigo, input_leito, input_medico, lista_dos_leitos, jan
     else:
         tkinter.messagebox.showwarning('Transferência', 'Paciente não encontrado')
 
-
 def tela_cria(janela):
     # ---------------------------- Tela Config ---------------------------------------#
     janela.destroy()
@@ -301,7 +296,7 @@ def tela_cria(janela):
 
     # ---------------------------- Imagens ---------------------------------------#
 
-    imagem = PhotoImage(file='./Imagens/LOGO_HOSP.png')
+    imagem = PhotoImage(file='../Imagens/LOGO_HOSP.png')
 
     # ---------------------------- Painel de Pesquisa Labels ---------------------------------------#
 
@@ -383,21 +378,17 @@ def cancelar(janela):
     internacoes()
 
 def adiciona_novo(janela, input_name, input_cpf, input_codigo, input_leito, input_medico, lista_dos_leitos):
-    nome = input_name.get()
-    cpf = input_cpf.get()
-    codigo = input_codigo.get()
-    leito = input_leito.get()
-    medico = input_medico.get()
-    tipo = lista_dos_leitos.get()
-    interno = 'Sim'
-    resultado = acessobanco.verifica_novo(codigo)
+
+    # ----------------------------- Aciona Classe Pacientes ---------------------------------------#
+
+    pacientes = Paciente(input_codigo.get(), input_name.get(), input_cpf.get(), input_leito.get(), input_medico.get(), lista_dos_leitos.get())
+    resultado = pacientes.verifica_novo(pacientes.codigo)
     if len(resultado) != 0:
         tkinter.messagebox.showwarning('Cadastro', 'Já Existe Cadastro')
     else:
-        acessobanco.insere_novo(codigo, nome, cpf, leito, medico, tipo, interno)
+        pacientes.adiciona_novo(pacientes.codigo, pacientes.nome, pacientes.cpf, pacientes.leito, pacientes.medico, pacientes.local)
         janela.destroy()
         internacoes()
-
 
 def chama_paciente():
     win_pacientes = Toplevel()
@@ -411,7 +402,7 @@ def chama_paciente():
 
     # ---------------------------- Imagens ---------------------------------------#
 
-    logo = PhotoImage(file='./Imagens/LOGO_HOSP.png')
+    logo = PhotoImage(file='../Imagens/LOGO_HOSP.png')
 
     # ---------------------------- Painel de Pesquisa Labels ---------------------------------------#
 

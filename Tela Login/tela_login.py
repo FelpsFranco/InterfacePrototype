@@ -1,6 +1,5 @@
 from tkinter import *
-import centro
-import bancousers
+from Outros import centro
 
 blue_color = (197, 206, 237)
 def tela_login():
