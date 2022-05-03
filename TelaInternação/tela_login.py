@@ -1,7 +1,10 @@
 from tkinter import *
 from Outros import centro
+# from TelaInternação import tela_interno
 
 blue_color = (197, 206, 237)
+
+
 def tela_login():
 
     # bancousers.verificaBanco()

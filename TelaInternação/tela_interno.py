@@ -3,7 +3,7 @@ from tkinter import *
 import tkinter.ttk as ttk
 from Outros import centro
 from paciente import Paciente
-import acessobanco
+from BancoDeDados import acessobanco
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
@@ -22,7 +22,7 @@ def internacoes():
     win_internos.attributes('-alpha', 1.0)
     win_internos.resizable(height=False, width=False)
     win_internos.configure(bg='white')
-    win_internos.title('Inicial')
+    win_internos.title('Internação')
 
     # ---------------------------- Img -----------------------------------------#
 
@@ -49,11 +49,13 @@ def internacoes():
     histo.place(x=63, y=176, width=228, height=35)
 
     labo = Button(win_internos, bg=centro.from_rgb(blue_color), text='Cadastrar',
-                  font=('Bahnschrift Condensed', 14), command=lambda: tela_cria(win_internos), anchor=CENTER, borderwidth=2)
+                  font=('Bahnschrift Condensed', 14), command=lambda: tela_cria(win_internos),
+                  anchor=CENTER, borderwidth=2)
     labo.place(x=421, y=176, width=228, height=35)
 
     solicita = Button(win_internos, bg=centro.from_rgb(blue_color), text='Leitos Ocupados',
-                      font=('Bahnschrift Condensed', 14), command=lambda: mostra_leitos(win_internos), anchor=CENTER, borderwidth=2)
+                      font=('Bahnschrift Condensed', 14), command=lambda: mostra_leitos(win_internos),
+                      anchor=CENTER, borderwidth=2)
     solicita.place(x=779, y=176, width=228, height=35)
 
     medicam = Button(win_internos, bg=centro.from_rgb(blue_color), text='Transferência',
@@ -67,6 +69,7 @@ def internacoes():
     rectangle_grafic.place(x=80, y=280)
 
     win_internos.mainloop()
+
 
 def cria_grafico(janela):
     # ----------------------------- Pacientes -----------------------------------------#
@@ -91,6 +94,7 @@ def cria_grafico(janela):
     sizes = [leitos_vazios, internos]
     ax1.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
     ax1.axis('equal')
+
 
 def mostra_leitos(janela):
     # ----------------------------- Cria Tela ---------------------------------------#
@@ -139,9 +143,11 @@ def mostra_leitos(janela):
     leitos_ocupados.protocol("WM_DELETE_WINDOW", lambda: evento_fechar(leitos_ocupados))
     leitos_ocupados.mainloop()
 
+
 def evento_fechar(janela):
     janela.destroy()
     internacoes()
+
 
 def muda_interno(leitos_ocupados, codigo_input):
     muda_status = codigo_input.get()
@@ -149,6 +155,7 @@ def muda_interno(leitos_ocupados, codigo_input):
 
     leitos_ocupados.destroy()
     internacoes()
+
 
 def transfere():
     # ---------------------------- Tela Config ---------------------------------------#
@@ -265,6 +272,7 @@ def transfere():
     cadastro.protocol("WM_DELETE_WINDOW", lambda: evento_fechar(cadastro))
     cadastro.mainloop()
 
+
 def transferencia(input_codigo, input_leito, input_medico, lista_dos_leitos, janela):
     codigo_transf = input_codigo.get()
     leito_transf = input_leito.get()
@@ -281,6 +289,7 @@ def transferencia(input_codigo, input_leito, input_medico, lista_dos_leitos, jan
         janela.destroy()
     else:
         tkinter.messagebox.showwarning('Transferência', 'Paciente não encontrado')
+
 
 def tela_cria(janela):
     # ---------------------------- Tela Config ---------------------------------------#
@@ -364,7 +373,8 @@ def tela_cria(janela):
                     font=('Inter', 12), bg='white')
     salvar.place(x=250, y=500, width=100, height=23)
 
-    cadastronovo.bind("<Return>", lambda e: adiciona_novo(cadastronovo, input_name, input_cpf, input_codigo, input_leito, input_medico, lista_dos_leitos))
+    cadastronovo.bind("<Return>", lambda e: adiciona_novo(cadastronovo, input_name, input_cpf, input_codigo,
+                                                          input_leito, input_medico, lista_dos_leitos))
 
     cancela = Button(cadastronovo, text='Cancelar', command=lambda: (cancelar(cadastronovo)), font=('Inter', 12),
                      bg='white')
@@ -373,22 +383,27 @@ def tela_cria(janela):
     cadastronovo.protocol("WM_DELETE_WINDOW", lambda: evento_fechar(cadastronovo))
     cadastronovo.mainloop()
 
+
 def cancelar(janela):
     janela.destroy()
     internacoes()
+
 
 def adiciona_novo(janela, input_name, input_cpf, input_codigo, input_leito, input_medico, lista_dos_leitos):
 
     # ----------------------------- Aciona Classe Pacientes ---------------------------------------#
 
-    pacientes = Paciente(input_codigo.get(), input_name.get(), input_cpf.get(), input_leito.get(), input_medico.get(), lista_dos_leitos.get())
+    pacientes = Paciente(input_codigo.get(), input_name.get(), input_cpf.get(), input_leito.get(),
+                         input_medico.get(), lista_dos_leitos.get())
     resultado = pacientes.verifica_novo(pacientes.codigo)
     if len(resultado) != 0:
         tkinter.messagebox.showwarning('Cadastro', 'Já Existe Cadastro')
     else:
-        pacientes.adiciona_novo(pacientes.codigo, pacientes.nome, pacientes.cpf, pacientes.leito, pacientes.medico, pacientes.local)
+        pacientes.adiciona_novo(pacientes.codigo, pacientes.nome, pacientes.cpf, pacientes.leito,
+                                pacientes.medico, pacientes.local)
         janela.destroy()
         internacoes()
+
 
 def chama_paciente():
     win_pacientes = Toplevel()
@@ -474,6 +489,7 @@ def chama_paciente():
     busca_banco.place(x=1100, y=87, width=100, height=35)
     win_pacientes.protocol("WM_DELETE_WINDOW", lambda: evento_fechar(win_pacientes))
     win_pacientes.mainloop()
+
 
 def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, medico_input):
     pega_codigo = codigo_input.get()
@@ -588,6 +604,3 @@ def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, med
             tree_especifica.insert("", END, values=row)
         tree = tree_especifica
         return tree
-
-
-internacoes()

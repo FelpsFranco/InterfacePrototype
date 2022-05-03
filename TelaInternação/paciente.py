@@ -1,4 +1,4 @@
-import acessobanco
+from BancoDeDados import acessobanco
 
 
 class Paciente:
