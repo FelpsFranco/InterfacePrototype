@@ -230,29 +230,6 @@ def transfere():
     lista_dos_leitos.set('Nenhum')
     lista_dos_leitos.place(x=460, y=399)
 
-    numero_do_leito = ['']
-    numero_dos_leitos = ttk.Combobox(cadastro, values=numero_do_leito)
-    numero_dos_leitos.set('Nenhum')
-    numero_dos_leitos.place(x=460, y=450)
-
-    if lista_dos_leitos.get() == 'UTI':
-        numero_leitouti = ['1', '2', '3', '4', '5']
-        numero_leitouti = ttk.Combobox(cadastro, values=numero_leitouti)
-        numero_leitouti.set('Nenhum')
-        numero_leitouti.place(x=460, y=450)
-
-    elif lista_dos_leitos.get() == 'EFG':
-        numero_leitops = ['1', '2', '3', '4', '5', '6', '7', '8']
-        numero_leitops = ttk.Combobox(cadastro, values=numero_leitops)
-        numero_leitops.set('Nenhum')
-        numero_leitops.place(x=460, y=450)
-
-    elif lista_dos_leitos.get() == 'PS':
-        numero_leitoefg = ['1', '2', '3', '4', '5', '6', '7', '8', '10', '11', '12', 'ESP', 'DIF']
-        numero_leitoefg = ttk.Combobox(cadastro, values=numero_leitoefg)
-        numero_leitoefg.set('Nenhum')
-        numero_leitoefg.place(x=460, y=450)
-
     input_medico = Entry(cadastro, font=('Inter', 12), bg='white')
     input_medico.place(x=80, y=390, width=300, height=30)
 
@@ -270,7 +247,6 @@ def transfere():
     cancela = Button(cadastro, text='Cancelar', command=cadastro.destroy, font=('Inter', 12), bg='white')
     cancela.place(x=450, y=500, width=100, height=23)
 
-    cadastro.protocol("WM_DELETE_WINDOW", lambda: evento_fechar(cadastro))
     cadastro.mainloop()
 
 
