@@ -18,7 +18,7 @@ def internacoes():
     acessobanco.cria_banco()
     win_internos = Tk()
     win_internos.attributes('-alpha', 0.0)
-    win_internos.geometry('1440x1024')
+    win_internos.geometry('1440x900')
     centro.centralizar(win_internos)
     win_internos.attributes('-alpha', 1.0)
     win_internos.resizable(height=False, width=False)
@@ -464,7 +464,6 @@ def chama_paciente():
                          command=lambda: (win_pacientes, tree, codigo_input, name_input, cpf_input, medico_input),
                          bg='white', text='Buscar', anchor=CENTER)
     busca_banco.place(x=1100, y=87, width=100, height=35)
-    win_pacientes.protocol("WM_DELETE_WINDOW", lambda: evento_fechar(win_pacientes))
     win_pacientes.mainloop()
 
 

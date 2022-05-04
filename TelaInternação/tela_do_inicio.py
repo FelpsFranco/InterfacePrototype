@@ -13,7 +13,7 @@ def interno(janela):
 def tela_login():
     janela_inicial = Tk()
     janela_inicial.attributes('-alpha', 0.0)
-    janela_inicial.geometry('1440x800')
+    janela_inicial.geometry('1440x700')
     centro.centralizar(janela_inicial)
     janela_inicial.attributes('-alpha', 1.0)
     janela_inicial.resizable(height=False, width=False)
