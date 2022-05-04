@@ -6,13 +6,14 @@ from paciente import Paciente
 from BancoDeDados import acessobanco
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from Outros import envia
 
 blue_color = (197, 206, 237)
 purple_color = (241, 242, 250)
 
 
 def internacoes():
-    # ---------------------------- Config ---------------------------------------#
+    # ---------------------------- Config --------------------------------------- #
 
     acessobanco.cria_banco()
     win_internos = Tk()
@@ -152,7 +153,7 @@ def evento_fechar(janela):
 def muda_interno(leitos_ocupados, codigo_input):
     muda_status = codigo_input.get()
     acessobanco.upd_interno(muda_status)
-
+    envia.libera_paciente()
     leitos_ocupados.destroy()
     internacoes()
 
