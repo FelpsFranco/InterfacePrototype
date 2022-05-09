@@ -1,3 +1,4 @@
+from datetime import date
 import tkinter.messagebox
 from tkinter import *
 import tkinter.ttk as ttk
@@ -10,6 +11,7 @@ from Outros import envia
 
 blue_color = (197, 206, 237)
 purple_color = (241, 242, 250)
+data_atual = date.today()
 
 
 def internacoes():
@@ -45,9 +47,9 @@ def internacoes():
 
     # ---------------------------- Buttons -----------------------------------------#
 
-    histo = Button(win_internos, bg=centro.from_rgb(blue_color), text='Pacientes',
-                   font=('Bahnschrift Condensed', 14), command=chama_paciente, anchor=CENTER, borderwidth=2)
-    histo.place(x=63, y=176, width=228, height=35)
+    internar = Button(win_internos, bg=centro.from_rgb(blue_color), text='Internar',
+                      font=('Bahnschrift Condensed', 14), command=lambda: internar_paciente(win_internos), anchor=CENTER, borderwidth=2)
+    internar.place(x=63, y=176, width=228, height=35)
 
     labo = Button(win_internos, bg=centro.from_rgb(blue_color), text='Cadastrar',
                   font=('Bahnschrift Condensed', 14), command=lambda: tela_cria(win_internos),
@@ -153,7 +155,9 @@ def evento_fechar(janela):
 def muda_interno(leitos_ocupados, codigo_input):
     muda_status = codigo_input.get()
     acessobanco.upd_interno(muda_status)
-    envia.libera_paciente()
+    email = acessobanco.email_info(muda_status)
+    nome = acessobanco.nome_info(muda_status)
+    envia.libera_paciente(email, nome)
     leitos_ocupados.destroy()
     internacoes()
 
@@ -305,21 +309,17 @@ def tela_cria(janela):
                      bg=centro.from_rgb(blue_color))
     text_cpf.place(x=400, y=200, width=65, height=19)
 
-    text_codigo = Label(cadastronovo, text='Código', font=('Inter', 10),
-                        bg=centro.from_rgb(blue_color))
-    text_codigo.place(x=20, y=300, width=65, height=19)
+    text_endereco = Label(cadastronovo, text='Endereço', font=('Inter', 10),
+                          bg=centro.from_rgb(blue_color))
+    text_endereco.place(x=20, y=285, width=65, height=19)
 
-    text_local = Label(cadastronovo, text='Local', font=('Inter', 10),
+    text_fone = Label(cadastronovo, text='Fone', font=('Inter', 10),
+                      bg=centro.from_rgb(blue_color))
+    text_fone.place(x=400, y=285, width=65, height=19)
+
+    text_email = Label(cadastronovo, text='Email', font=('Inter', 10),
                        bg=centro.from_rgb(blue_color))
-    text_local.place(x=400, y=400, width=65, height=19)
-
-    text_leito = Label(cadastronovo, text='Leito', font=('Inter', 10),
-                       bg=centro.from_rgb(blue_color))
-    text_leito.place(x=400, y=300, width=65, height=19)
-
-    text_medico = Label(cadastronovo, text='Médico', font=('Inter', 10),
-                        bg=centro.from_rgb(blue_color))
-    text_medico.place(x=20, y=400, width=65, height=19)
+    text_email.place(x=20, y=375, width=65, height=19)
 
     # ---------------------------- Cadastro Inputs ---------------------------------------#
 
@@ -329,29 +329,30 @@ def tela_cria(janela):
     input_cpf = Entry(cadastronovo, font=('Inter', 12), bg='white')
     input_cpf.place(x=460, y=195, width=300, height=30)
 
-    input_codigo = Entry(cadastronovo, font=('Inter', 12), bg='white')
-    input_codigo.place(x=80, y=295, width=300, height=30)
+    input_endereco = Entry(cadastronovo, font=('Inter', 12), bg='white')
+    input_endereco.place(x=80, y=280, width=300, height=30)
 
-    input_leito = Entry(cadastronovo, font=('Inter', 12), bg='white')
-    input_leito.place(x=460, y=300, width=300, height=30)
+    input_fone = Entry(cadastronovo, font=('Inter', 12), bg='white')
+    input_fone.place(x=460, y=280, width=300, height=30)
 
-    input_medico = Entry(cadastronovo, font=('Inter', 12), bg='white')
-    input_medico.place(x=80, y=390, width=300, height=30)
+    input_email = Entry(cadastronovo, font=('Inter', 12), bg='white')
+    input_email.place(x=80, y=370, width=300, height=30)
 
-    lista_de_leitos = ['UTI', 'EFG', 'PS']
-    lista_dos_leitos = ttk.Combobox(cadastronovo, values=lista_de_leitos)
-    lista_dos_leitos.set('Escolha')
-    lista_dos_leitos.place(x=460, y=399)
+    # lista_de_leitos = ['UTI', 'EFG', 'PS']
+    # lista_dos_leitos = ttk.Combobox(cadastronovo, values=lista_de_leitos)
+    # lista_dos_leitos.set('Escolha')
+    # lista_dos_leitos.place(x=460, y=349)
 
     # ---------------------------- Cadastro Buttons ---------------------------------------#
 
     salvar = Button(cadastronovo, text='Salvar', command=lambda: (
-        adiciona_novo(cadastronovo, input_name, input_cpf, input_codigo, input_leito, input_medico, lista_dos_leitos)),
+        adiciona_novo(cadastronovo, input_name, input_cpf, input_fone, input_endereco, input_email)),
                     font=('Inter', 12), bg='white')
     salvar.place(x=250, y=500, width=100, height=23)
 
-    cadastronovo.bind("<Return>", lambda e: adiciona_novo(cadastronovo, input_name, input_cpf, input_codigo,
-                                                          input_leito, input_medico, lista_dos_leitos))
+    cadastronovo.bind("<Return>",
+                      lambda e: adiciona_novo(cadastronovo, input_name, input_cpf, input_fone, input_endereco,
+                                              input_email))
 
     cancela = Button(cadastronovo, text='Cancelar', command=lambda: (cancelar(cadastronovo)), font=('Inter', 12),
                      bg='white')
@@ -366,24 +367,22 @@ def cancelar(janela):
     internacoes()
 
 
-def adiciona_novo(janela, input_name, input_cpf, input_codigo, input_leito, input_medico, lista_dos_leitos):
-
+def adiciona_novo(janela, input_name, input_cpf, input_fone, input_endereco, input_email):
     # ----------------------------- Aciona Classe Pacientes ---------------------------------------#
 
-    pacientes = Paciente(input_codigo.get(), input_name.get(), input_cpf.get(), input_leito.get(),
-                         input_medico.get(), lista_dos_leitos.get())
-    resultado = pacientes.verifica_novo(pacientes.codigo)
+    pacientes = Paciente(input_name.get(), input_cpf.get(), input_fone.get(), input_endereco.get(), input_email.get())
+    resultado = pacientes.verifica_novo(pacientes.cpf)
     if len(resultado) != 0:
         tkinter.messagebox.showwarning('Cadastro', 'Já Existe Cadastro')
     else:
-        pacientes.adiciona_novo(pacientes.codigo, pacientes.nome, pacientes.cpf, pacientes.leito,
-                                pacientes.medico, pacientes.local)
+        pacientes.adiciona_novo(pacientes.nome, pacientes.cpf, pacientes.fone, pacientes.end, pacientes.email)
         janela.destroy()
         internacoes()
 
 
-def chama_paciente():
-    win_pacientes = Toplevel()
+def internar_paciente(janela):
+    janela.destroy()
+    win_pacientes = Tk()
     win_pacientes.attributes('-alpha', 0.0)
     win_pacientes.geometry('1440x1024')
     centro.centralizar(win_pacientes)
@@ -415,8 +414,23 @@ def chama_paciente():
     codigo_text = Label(win_pacientes, text='Código', font=('Inter', 10), bg=centro.from_rgb(blue_color))
     codigo_text.place(x=510, y=34, width=65, height=19)
 
-    medico_text = Label(win_pacientes, text='Médico', font=('Inter', 10), bg=centro.from_rgb(blue_color))
-    medico_text.place(x=510, y=93, width=65, height=19)
+    confirma_text = Label(win_pacientes, text='Confirme o Código', font=('Inter', 10), bg='white')
+    confirma_text.place(x=34, y=700)
+
+    lista_de_medico = ['Dr. Amanda', 'Dr. Josué', 'Dr. Peixoto', 'Dr. Alicia']
+    lista_dos_medicos = ttk.Combobox(win_pacientes, values=lista_de_medico)
+    lista_dos_medicos.set('Médicos')
+    lista_dos_medicos.place(x=34, y=800)
+
+    lista_de_leitos = ['1', '2', '3', '4', '5', '6', '7']
+    lista_dos_leitos = ttk.Combobox(win_pacientes, values=lista_de_leitos)
+    lista_dos_leitos.set('Leito')
+    lista_dos_leitos.place(x=326, y=800)
+
+    lista_de_local = ['UTI', 'EFG', 'PS']
+    lista_dos_locais = ttk.Combobox(win_pacientes, values=lista_de_local)
+    lista_dos_locais.set('Local')
+    lista_dos_locais.place(x=180, y=800)
 
     # ---------------------------- Painel de Pesquisa Input ---------------------------------------#
 
@@ -429,8 +443,27 @@ def chama_paciente():
     codigo_input = Entry(win_pacientes, font=('Inter', 12), bg='white')
     codigo_input.place(x=579, y=29, width=367, height=30)
 
-    medico_input = Entry(win_pacientes, font=('Inter', 12), bg='white')
-    medico_input.place(x=579, y=87, width=367, height=30)
+    confirma_input = Entry(win_pacientes, font=('Inter', 12), bg='white')
+    confirma_input.place(x=150, y=698, width=150, height=30)
+
+    # ---------------------------- Painel de Pesquisa Button ---------------------------------------#
+
+    voltar = Button(win_pacientes, bg='white', command=lambda: cancelar(win_pacientes), text='Voltar',
+                    anchor=CENTER)
+    voltar.place(x=1100, y=29, width=100, height=35)
+
+    win_pacientes.bind("<Return>",
+                       lambda e: busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input))
+
+    busca_banco = Button(win_pacientes,
+                         command=lambda: (win_pacientes, tree, codigo_input, name_input, cpf_input),
+                         bg='white', text='Buscar', anchor=CENTER)
+    busca_banco.place(x=1100, y=87, width=100, height=35)
+
+    finalizar = Button(win_pacientes, bg='white', command=lambda: (
+        interna_paciente(win_pacientes, confirma_input.get(), lista_dos_medicos.get(), lista_dos_locais.get(),
+                         lista_dos_leitos.get())), text='Salvar', anchor=CENTER)
+    finalizar.place(x=500, y=798, width=100, height=25)
 
     # ---------------------------- Infor List ---------------------------------------#
 
@@ -439,101 +472,55 @@ def chama_paciente():
                         show='headings')
     scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
     tree.configure(yscrollcommand=scrollbar.set)
-    tree.place(x=0, y=149, width=1440, height=875)
+    tree.place(x=0, y=149, width=1440, height=500)
     tree.heading("#1", text="Código", anchor='w')
     tree.heading("#2", text="Nome", anchor='w')
     tree.heading("#3", text="CPF", anchor='w')
-    tree.heading("#4", text="Leito", anchor='w')
-    tree.heading("#5", text="Médico", anchor='w')
-    tree.heading("#6", text="Local", anchor='w')
-    tree.heading("#7", text="Internado", anchor='w')
-    rows = acessobanco.todos_paciente()
-    for row in rows:
-        tree.insert("", END, values=row)
+    tree.heading("#4", text="Telefone", anchor='w')
+    tree.heading("#5", text="Endereço", anchor='w')
+    tree.heading("#6", text="E-mail", anchor='w')
+    tree.heading("#7", text="Data Cadastro", anchor='w')
 
-    # ---------------------------- Painel de Pesquisa Button ---------------------------------------#
-
-    voltar = Button(win_pacientes, bg='white', command=win_pacientes.destroy, text='Voltar',
-                    anchor=CENTER)
-    voltar.place(x=1100, y=29, width=100, height=35)
-
-    win_pacientes.bind("<Return>",
-                       lambda e: busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, medico_input))
-
-    busca_banco = Button(win_pacientes,
-                         command=lambda: (win_pacientes, tree, codigo_input, name_input, cpf_input, medico_input),
-                         bg='white', text='Buscar', anchor=CENTER)
-    busca_banco.place(x=1100, y=87, width=100, height=35)
     win_pacientes.mainloop()
 
 
-def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, medico_input):
+def interna_paciente(janela, codigoget, medicoget, localget, leitoget):
+    codigo = codigoget
+    medico = medicoget
+    local = localget
+    leito = leitoget
+    internado = 'Sim'
+    resultado = acessobanco.validacao(codigo)
+    if resultado != 0:
+        acessobanco.internando(codigo, medico, local, leito, internado)
+        janela.destroy()
+        internacoes()
+    elif resultado == 0:
+        tkinter.messagebox.showwarning('Internação', 'Paciente Não Encontrado')
+
+
+def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input):
     pega_codigo = codigo_input.get()
     pega_nome = name_input.get()
     pega_cpf = cpf_input.get()
-    pega_medico = medico_input.get()
-
-    # ---------------------------- Pesquisa por Geral ---------------------------------------#
-
-    if pega_codigo == '' and pega_nome == '' and pega_cpf == '' and pega_medico == '':
-
-        tree_especifica = ttk.Treeview(win_pacientes, column=(
-            "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"), show='headings')
-        scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
-        tree.configure(yscrollcommand=scrollbar.set)
-        tree_especifica.place(x=0, y=149, width=1440, height=875)
-        tree_especifica.heading("#1", text="Código", anchor='w')
-        tree_especifica.heading("#2", text="Nome", anchor='w')
-        tree_especifica.heading("#3", text="CPF", anchor='w')
-        tree_especifica.heading("#4", text="Leito", anchor='w')
-        tree_especifica.heading("#5", text="Médico", anchor='w')
-        tree_especifica.heading("#6", text="Local", anchor='w')
-        tree_especifica.heading("#7", text="Internado", anchor='w')
-        rows = acessobanco.filtro_todos()
-        for row in rows:
-            tree_especifica.insert("", END, values=row)
-        tree = tree_especifica
-        return tree
 
     # ---------------------------- Pesquisa Por Código ---------------------------------------#
 
-    elif pega_codigo != '' and pega_nome == '' and pega_cpf == '' and pega_medico == '':
+    if pega_codigo != '' and pega_nome == '' and pega_cpf == '':
 
         tree_especifica = ttk.Treeview(win_pacientes, column=(
             "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"), show='headings')
         scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
-        tree_especifica.place(x=0, y=149, width=1440, height=875)
+        tree_especifica.place(x=0, y=149, width=1440, height=500)
         tree_especifica.heading("#1", text="Código", anchor='w')
         tree_especifica.heading("#2", text="Nome", anchor='w')
         tree_especifica.heading("#3", text="CPF", anchor='w')
-        tree_especifica.heading("#4", text="Leito", anchor='w')
-        tree_especifica.heading("#5", text="Médico", anchor='w')
-        tree_especifica.heading("#6", text="Local", anchor='w')
-        tree_especifica.heading("#7", text="Internado", anchor='w')
+        tree_especifica.heading("#4", text="Telefone", anchor='w')
+        tree_especifica.heading("#5", text="Endereço", anchor='w')
+        tree_especifica.heading("#6", text="E-mail", anchor='w')
+        tree_especifica.heading("#7", text="Cadastro", anchor='w')
         rows = acessobanco.filtro_codigo(pega_codigo)
-        for row in rows:
-            tree_especifica.insert("", END, values=row)
-        tree = tree_especifica
-        return tree
-
-    # ---------------------------- Pesquisa Por Médico ---------------------------------------#
-
-    elif pega_codigo == '' and pega_nome == '' and pega_cpf == '' and pega_medico != '':
-
-        tree_especifica = ttk.Treeview(win_pacientes, column=(
-            "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"), show='headings')
-        scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
-        tree.configure(yscrollcommand=scrollbar.set)
-        tree_especifica.place(x=0, y=149, width=1440, height=875)
-        tree_especifica.heading("#1", text="Código", anchor='w')
-        tree_especifica.heading("#2", text="Nome", anchor='w')
-        tree_especifica.heading("#3", text="CPF", anchor='w')
-        tree_especifica.heading("#4", text="Leito", anchor='w')
-        tree_especifica.heading("#5", text="Médico", anchor='w')
-        tree_especifica.heading("#6", text="Local", anchor='w')
-        tree_especifica.heading("#7", text="Internado", anchor='w')
-        rows = acessobanco.filtro_medico(pega_medico)
         for row in rows:
             tree_especifica.insert("", END, values=row)
         tree = tree_especifica
@@ -541,19 +528,19 @@ def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, med
 
     # ---------------------------- Pesquisa Por Nome ---------------------------------------#
 
-    elif pega_codigo == '' and pega_nome != '' and pega_cpf == '' and pega_medico == '':
+    elif pega_codigo == '' and pega_nome != '' and pega_cpf == '':
         tree_especifica = ttk.Treeview(win_pacientes, column=(
             "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"), show='headings')
         scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
-        tree_especifica.place(x=0, y=149, width=1440, height=875)
+        tree_especifica.place(x=0, y=149, width=1440, height=500)
         tree_especifica.heading("#1", text="Código", anchor='w')
         tree_especifica.heading("#2", text="Nome", anchor='w')
         tree_especifica.heading("#3", text="CPF", anchor='w')
-        tree_especifica.heading("#4", text="Leito", anchor='w')
-        tree_especifica.heading("#5", text="Médico", anchor='w')
-        tree_especifica.heading("#6", text="Local", anchor='w')
-        tree_especifica.heading("#7", text="Internado", anchor='w')
+        tree_especifica.heading("#4", text="Telefone", anchor='w')
+        tree_especifica.heading("#5", text="Endereço", anchor='w')
+        tree_especifica.heading("#6", text="E-mail", anchor='w')
+        tree_especifica.heading("#7", text="Cadastro", anchor='w')
         rows = acessobanco.filtro_nome(pega_nome)
         for row in rows:
             tree_especifica.insert("", END, values=row)
@@ -562,19 +549,19 @@ def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, med
 
     # ---------------------------- Pesquisa Por CPF ---------------------------------------#
 
-    elif pega_codigo == '' and pega_nome == '' and pega_cpf != '' and pega_medico == '':
+    elif pega_codigo == '' and pega_nome == '' and pega_cpf != '':
         tree_especifica = ttk.Treeview(win_pacientes, column=(
             "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"), show='headings')
         scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
-        tree_especifica.place(x=0, y=149, width=1440, height=875)
+        tree_especifica.place(x=0, y=149, width=1440, height=500)
         tree_especifica.heading("#1", text="Código", anchor='w')
         tree_especifica.heading("#2", text="Nome", anchor='w')
         tree_especifica.heading("#3", text="CPF", anchor='w')
-        tree_especifica.heading("#4", text="Leito", anchor='w')
-        tree_especifica.heading("#5", text="Médico", anchor='w')
-        tree_especifica.heading("#6", text="Local", anchor='w')
-        tree_especifica.heading("#7", text="Internado", anchor='w')
+        tree_especifica.heading("#4", text="Telefone", anchor='w')
+        tree_especifica.heading("#5", text="Endereço", anchor='w')
+        tree_especifica.heading("#6", text="E-mail", anchor='w')
+        tree_especifica.heading("#7", text="Cadastro", anchor='w')
         rows = acessobanco.filtro_cpf(pega_cpf)
         for row in rows:
             tree_especifica.insert("", END, values=row)

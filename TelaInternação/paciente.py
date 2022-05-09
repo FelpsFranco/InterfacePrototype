@@ -2,25 +2,23 @@ from BancoDeDados import acessobanco
 
 
 class Paciente:
-    def __init__(self, codigo, nome, cpf, leito, medico, local):
-        self.codigo = codigo
+    def __init__(self, nome, cpf,  fone, endereco, email):
+        self.end = endereco
+        self.fone = fone
         self.nome = nome
         self.cpf = cpf
-        self.leito = leito
-        self.medico = medico
-        self.local = local
+        self.email = email
 
-    def verifica_novo(self, codigoget):
-        self.codigo = codigoget
-        resultado = acessobanco.verifica_novo(self.codigo)
+    def verifica_novo(self, cpfget):
+        self.cpf = cpfget
+        resultado = acessobanco.verifica_novo(self.cpf)
         return resultado
 
-    def adiciona_novo(self, codigoget, nomeget, cpfget, leitoget, medicoget, listaget):
-        self.codigo = codigoget
+    def adiciona_novo(self, nomeget, cpfget, foneget, endget, emailget):
+        self.fone = foneget
+        self.end = endget
         self.nome = nomeget
         self.cpf = cpfget
-        self.leito = leitoget
-        self.medico = medicoget
-        self.local = listaget
-        interno = 'Sim'
-        acessobanco.insere_novo(self.codigo, self.nome, self.cpf, self.leito, self.medico, self.local, interno)
+        self.email = emailget
+        interno = 'Não'
+        acessobanco.insere_novo(self.nome, self.cpf, self.fone, self.end, self.email, interno)
