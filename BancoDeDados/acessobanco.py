@@ -68,9 +68,9 @@ def apresenta_leitos():
 
 
 def upd_interno(muda_status):
-    status = 'Não'
+    data_saida = data_atual
     cursor.execute("""
-                    UPDATE cadastro SET interno = ? WHERE codigo = ?""", (status, muda_status))
+                    UPDATE cadastro SET leito = ' ', local = ' ', interno = '', medico = ' ', data_saida = ? WHERE codigo = ?""", (data_saida, muda_status))
     conn.commit()
 
 
@@ -142,9 +142,10 @@ def filtro_nome(pega_nome):
 def filtro_cpf(pega_cpf):
     cur = conn.cursor()
     cur.execute("""
-                                 SELECT codigo, nome, cpf, fone, end, email, data_cadastro FROM cadastro t where t.cpf = ? """, (pega_cpf,))
+                                 SELECT codigo, nome, cpf, fone, end, email, data_cadastro FROM cadastro where cpf LIKE ? """, (pega_cpf + "%",))
     rows = cur.fetchall()
     return rows
+
 
 def email_info(pega_codigo):
     cur = conn.cursor()
@@ -153,12 +154,14 @@ def email_info(pega_codigo):
     email = cur.fetchall()
     return email
 
+
 def nome_info(pega_codigo):
     cur = conn.cursor()
     cur.execute("""
                 SELECT nome FROM cadastro t where t.codigo = ? """, (pega_codigo,))
     nome = cur.fetchall()
     return nome
+
 
 def valida_cod(codigo):
     cur = conn.cursor()
@@ -167,7 +170,9 @@ def valida_cod(codigo):
     resultado = cur.fetchall()
     return resultado
 
+
 def internando(codigo, medico, local, leito, interno):
-    data_interna = data_atual
+    data = data_atual
     cursor.execute("""
-                    UPDATE cadastro SET medico = ?, local = ?, leito = ?, interno = ?, data_interna = ? WHERE codigo = ?  """, (medico, local, leito, interno, data_interna, codigo))
+                    UPDATE cadastro SET medico = ?, local = ?, leito = ?, interno = ?, data_interna = ? WHERE codigo = ?  """, (medico, local, leito, interno, data, codigo))
+    conn.commit()

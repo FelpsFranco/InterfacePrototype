@@ -1,4 +1,5 @@
-from datetime import date
+import datetime
+
 import tkinter.messagebox
 from tkinter import *
 import tkinter.ttk as ttk
@@ -9,9 +10,10 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from Outros import envia
 
+
 blue_color = (197, 206, 237)
 purple_color = (241, 242, 250)
-data_atual = date.today()
+data_atual = datetime.datetime
 
 
 def internacoes():
@@ -20,7 +22,7 @@ def internacoes():
     acessobanco.cria_banco()
     win_internos = Tk()
     win_internos.attributes('-alpha', 0.0)
-    win_internos.geometry('1440x900')
+    win_internos.geometry('1300x700')
     centro.centralizar(win_internos)
     win_internos.attributes('-alpha', 1.0)
     win_internos.resizable(height=False, width=False)
@@ -39,7 +41,7 @@ def internacoes():
 
     panel_logo = Label(win_internos, image=logo,
                        bg=centro.from_rgb(blue_color))
-    panel_logo.place(x=1267, y=10)
+    panel_logo.place(x=1100, y=10)
 
     titulo = Label(win_internos, text='Intensive Care Unit Control', font=('Bahnschrift Condensed', 24),
                    bg=centro.from_rgb(blue_color))
@@ -49,21 +51,21 @@ def internacoes():
 
     internar = Button(win_internos, bg=centro.from_rgb(blue_color), text='Internar',
                       font=('Bahnschrift Condensed', 14), command=lambda: internar_paciente(win_internos), anchor=CENTER, borderwidth=2)
-    internar.place(x=63, y=176, width=228, height=35)
+    internar.place(x=23, y=176, width=228, height=35)
 
     labo = Button(win_internos, bg=centro.from_rgb(blue_color), text='Cadastrar',
                   font=('Bahnschrift Condensed', 14), command=lambda: tela_cria(win_internos),
                   anchor=CENTER, borderwidth=2)
-    labo.place(x=421, y=176, width=228, height=35)
+    labo.place(x=381, y=176, width=228, height=35)
 
     solicita = Button(win_internos, bg=centro.from_rgb(blue_color), text='Leitos Ocupados',
                       font=('Bahnschrift Condensed', 14), command=lambda: mostra_leitos(win_internos),
                       anchor=CENTER, borderwidth=2)
-    solicita.place(x=779, y=176, width=228, height=35)
+    solicita.place(x=739, y=176, width=228, height=35)
 
     medicam = Button(win_internos, bg=centro.from_rgb(blue_color), text='Transferência',
                      command=transfere, font=('Bahnschrift Condensed', 14), anchor=CENTER, borderwidth=2)
-    medicam.place(x=1136, y=176, width=228, height=35)
+    medicam.place(x=1066, y=176, width=228, height=35)
 
     cria_grafico(win_internos)
 
@@ -157,7 +159,7 @@ def muda_interno(leitos_ocupados, codigo_input):
     acessobanco.upd_interno(muda_status)
     email = acessobanco.email_info(muda_status)
     nome = acessobanco.nome_info(muda_status)
-    envia.libera_paciente(email, nome)
+    envia.libera_paciente(email, nome, data_atual)
     leitos_ocupados.destroy()
     internacoes()
 
@@ -226,16 +228,26 @@ def transfere():
     input_codigo = Entry(cadastro, font=('Inter', 12), bg='white')
     input_codigo.place(x=80, y=295, width=300, height=30)
 
-    input_leito = Entry(cadastro, font=('Inter', 12), bg='white')
-    input_leito.place(x=460, y=300, width=300, height=30)
+    # input_leito = Entry(cadastro, font=('Inter', 12), bg='white')
+    # input_leito.place(x=460, y=300, width=300, height=30)
+
+    listas_de_leitos = ['1', '2', '3', '4', '5', '6', '7']
+    input_leito = ttk.Combobox(cadastro, values=listas_de_leitos)
+    input_leito.set('Leito')
+    input_leito.place(x=460, y=300)
 
     lista_de_leitos = ['UTI', 'EFG', 'PS']
     lista_dos_leitos = ttk.Combobox(cadastro, values=lista_de_leitos)
     lista_dos_leitos.set('Nenhum')
-    lista_dos_leitos.place(x=460, y=399)
+    lista_dos_leitos.place(x=460, y=398)
 
-    input_medico = Entry(cadastro, font=('Inter', 12), bg='white')
-    input_medico.place(x=80, y=390, width=300, height=30)
+    # input_medico = Entry(cadastro, font=('Inter', 12), bg='white')
+    # input_medico.place(x=80, y=390, width=300, height=30)
+
+    lista_de_medico = ['Dr. Amanda', 'Dr. Josué', 'Dr. Peixoto', 'Dr. Alicia']
+    input_medico = ttk.Combobox(cadastro, values=lista_de_medico)
+    input_medico.set('Médicos')
+    input_medico.place(x=80, y=398)
 
     # ---------------------------- Cadastro Buttons ---------------------------------------#
 
@@ -384,7 +396,7 @@ def internar_paciente(janela):
     janela.destroy()
     win_pacientes = Tk()
     win_pacientes.attributes('-alpha', 0.0)
-    win_pacientes.geometry('1440x1024')
+    win_pacientes.geometry('1300x1024')
     centro.centralizar(win_pacientes)
     win_pacientes.attributes('-alpha', 1.0)
     win_pacientes.resizable(height=False, width=False)
@@ -401,7 +413,7 @@ def internar_paciente(janela):
     rectangle_logo.place(width=1440, height=149)
 
     panel_logo = Label(win_pacientes, image=logo, bg=centro.from_rgb(blue_color))
-    panel_logo.place(x=1267, y=10)
+    panel_logo.place(x=1120, y=10)
 
     # ---------------------------- Painel de Pesquisa Text---------------------------------------#
 
@@ -415,22 +427,22 @@ def internar_paciente(janela):
     codigo_text.place(x=510, y=34, width=65, height=19)
 
     confirma_text = Label(win_pacientes, text='Confirme o Código', font=('Inter', 10), bg='white')
-    confirma_text.place(x=34, y=700)
+    confirma_text.place(x=34, y=600)
 
     lista_de_medico = ['Dr. Amanda', 'Dr. Josué', 'Dr. Peixoto', 'Dr. Alicia']
     lista_dos_medicos = ttk.Combobox(win_pacientes, values=lista_de_medico)
     lista_dos_medicos.set('Médicos')
-    lista_dos_medicos.place(x=34, y=800)
+    lista_dos_medicos.place(x=34, y=700)
 
     lista_de_leitos = ['1', '2', '3', '4', '5', '6', '7']
     lista_dos_leitos = ttk.Combobox(win_pacientes, values=lista_de_leitos)
     lista_dos_leitos.set('Leito')
-    lista_dos_leitos.place(x=326, y=800)
+    lista_dos_leitos.place(x=326, y=700)
 
     lista_de_local = ['UTI', 'EFG', 'PS']
     lista_dos_locais = ttk.Combobox(win_pacientes, values=lista_de_local)
     lista_dos_locais.set('Local')
-    lista_dos_locais.place(x=180, y=800)
+    lista_dos_locais.place(x=180, y=700)
 
     # ---------------------------- Painel de Pesquisa Input ---------------------------------------#
 
@@ -444,26 +456,26 @@ def internar_paciente(janela):
     codigo_input.place(x=579, y=29, width=367, height=30)
 
     confirma_input = Entry(win_pacientes, font=('Inter', 12), bg='white')
-    confirma_input.place(x=150, y=698, width=150, height=30)
+    confirma_input.place(x=150, y=600, width=150, height=30)
 
     # ---------------------------- Painel de Pesquisa Button ---------------------------------------#
 
     voltar = Button(win_pacientes, bg='white', command=lambda: cancelar(win_pacientes), text='Voltar',
                     anchor=CENTER)
-    voltar.place(x=1100, y=29, width=100, height=35)
+    voltar.place(x=1000, y=29, width=100, height=35)
 
     win_pacientes.bind("<Return>",
                        lambda e: busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input))
 
     busca_banco = Button(win_pacientes,
-                         command=lambda: (win_pacientes, tree, codigo_input, name_input, cpf_input),
+                         command=lambda: busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input),
                          bg='white', text='Buscar', anchor=CENTER)
-    busca_banco.place(x=1100, y=87, width=100, height=35)
+    busca_banco.place(x=1000, y=87, width=100, height=35)
 
     finalizar = Button(win_pacientes, bg='white', command=lambda: (
         interna_paciente(win_pacientes, confirma_input.get(), lista_dos_medicos.get(), lista_dos_locais.get(),
                          lista_dos_leitos.get())), text='Salvar', anchor=CENTER)
-    finalizar.place(x=500, y=798, width=100, height=25)
+    finalizar.place(x=500, y=700, width=100, height=25)
 
     # ---------------------------- Infor List ---------------------------------------#
 
@@ -472,7 +484,7 @@ def internar_paciente(janela):
                         show='headings')
     scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
     tree.configure(yscrollcommand=scrollbar.set)
-    tree.place(x=0, y=149, width=1440, height=500)
+    tree.place(x=0, y=149, width=1300, height=400)
     tree.heading("#1", text="Código", anchor='w')
     tree.heading("#2", text="Nome", anchor='w')
     tree.heading("#3", text="CPF", anchor='w')
@@ -490,13 +502,13 @@ def interna_paciente(janela, codigoget, medicoget, localget, leitoget):
     local = localget
     leito = leitoget
     internado = 'Sim'
-    resultado = acessobanco.validacao(codigo)
-    if resultado != 0:
-        acessobanco.internando(codigo, medico, local, leito, internado)
-        janela.destroy()
-        internacoes()
-    elif resultado == 0:
-        tkinter.messagebox.showwarning('Internação', 'Paciente Não Encontrado')
+    # resultado = acessobanco.validacao(codigo)
+    # if resultado == 0:
+    acessobanco.internando(codigo, medico, local, leito, internado)
+    janela.destroy()
+    internacoes()
+    # elif resultado == 0:
+    #     tkinter.messagebox.showwarning('Internação', 'Paciente Não Encontrado')
 
 
 def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input):
@@ -512,7 +524,7 @@ def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input):
             "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"), show='headings')
         scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
-        tree_especifica.place(x=0, y=149, width=1440, height=500)
+        tree_especifica.place(x=0, y=149, width=1300, height=400)
         tree_especifica.heading("#1", text="Código", anchor='w')
         tree_especifica.heading("#2", text="Nome", anchor='w')
         tree_especifica.heading("#3", text="CPF", anchor='w')
@@ -533,7 +545,7 @@ def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input):
             "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"), show='headings')
         scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
-        tree_especifica.place(x=0, y=149, width=1440, height=500)
+        tree_especifica.place(x=0, y=149, width=1300, height=400)
         tree_especifica.heading("#1", text="Código", anchor='w')
         tree_especifica.heading("#2", text="Nome", anchor='w')
         tree_especifica.heading("#3", text="CPF", anchor='w')
@@ -554,7 +566,7 @@ def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input):
             "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"), show='headings')
         scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
-        tree_especifica.place(x=0, y=149, width=1440, height=500)
+        tree_especifica.place(x=0, y=149, width=1300, height=400)
         tree_especifica.heading("#1", text="Código", anchor='w')
         tree_especifica.heading("#2", text="Nome", anchor='w')
         tree_especifica.heading("#3", text="CPF", anchor='w')

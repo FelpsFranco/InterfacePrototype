@@ -28,7 +28,7 @@ def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, fon
             "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"), show='headings')
         scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
-        tree_especifica.place(x=0, y=149, width=1440, height=875)
+        tree_especifica.place(x=0, y=149, width=1300, height=875)
         tree_especifica.heading("#1", text="Código", anchor='w')
         tree_especifica.heading("#2", text="Nome", anchor='w')
         tree_especifica.heading("#3", text="CPF", anchor='w')
@@ -50,7 +50,7 @@ def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, fon
             "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"), show='headings')
         scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
-        tree_especifica.place(x=0, y=149, width=1440, height=875)
+        tree_especifica.place(x=0, y=149, width=1300, height=875)
         tree_especifica.heading("#1", text="Código", anchor='w')
         tree_especifica.heading("#2", text="Nome", anchor='w')
         tree_especifica.heading("#3", text="CPF", anchor='w')
@@ -72,7 +72,7 @@ def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, fon
             "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"), show='headings')
         scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
-        tree_especifica.place(x=0, y=149, width=1440, height=875)
+        tree_especifica.place(x=0, y=149, width=1300, height=875)
         tree_especifica.heading("#1", text="Código", anchor='w')
         tree_especifica.heading("#2", text="Nome", anchor='w')
         tree_especifica.heading("#3", text="CPF", anchor='w')
@@ -93,7 +93,7 @@ def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, fon
             "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"), show='headings')
         scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
-        tree_especifica.place(x=0, y=149, width=1440, height=875)
+        tree_especifica.place(x=0, y=149, width=1300, height=875)
         tree_especifica.heading("#1", text="Código", anchor='w')
         tree_especifica.heading("#2", text="Nome", anchor='w')
         tree_especifica.heading("#3", text="CPF", anchor='w')
@@ -114,7 +114,7 @@ def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, fon
             "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"), show='headings')
         scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
-        tree_especifica.place(x=0, y=149, width=1440, height=875)
+        tree_especifica.place(x=0, y=149, width=1300, height=875)
         tree_especifica.heading("#1", text="Código", anchor='w')
         tree_especifica.heading("#2", text="Nome", anchor='w')
         tree_especifica.heading("#3", text="CPF", anchor='w')
@@ -132,7 +132,7 @@ def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, fon
 def chama_paciente():
     win_pacientes = Toplevel()
     win_pacientes.attributes('-alpha', 0.0)
-    win_pacientes.geometry('1440x1024')
+    win_pacientes.geometry('1300x1024')
     centro.centralizar(win_pacientes)
     win_pacientes.attributes('-alpha', 1.0)
     win_pacientes.resizable(height=False, width=False)
@@ -149,7 +149,7 @@ def chama_paciente():
     rectangle_logo.place(width=1440, height=149)
 
     panel_logo = Label(win_pacientes, image=logo, bg=centro.from_rgb(blue_color))
-    panel_logo.place(x=1267, y=10)
+    panel_logo.place(x=1150, y=10)
 
     # ---------------------------- Painel de Pesquisa Text---------------------------------------#
 
@@ -186,7 +186,7 @@ def chama_paciente():
                         show='headings')
     scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
     tree.configure(yscrollcommand=scrollbar.set)
-    tree.place(x=0, y=149, width=1440, height=875)
+    tree.place(x=0, y=149, width=1300, height=875)
     tree.heading("#1", text="Código", anchor='w')
     tree.heading("#2", text="Nome", anchor='w')
     tree.heading("#3", text="CPF", anchor='w')
@@ -202,7 +202,7 @@ def chama_paciente():
 
     voltar = Button(win_pacientes, bg='white', command=win_pacientes.destroy, text='Voltar',
                     anchor=CENTER)
-    voltar.place(x=1100, y=29, width=100, height=35)
+    voltar.place(x=980, y=29, width=100, height=35)
 
     win_pacientes.bind("<Return>",
                        lambda e: busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, fone_input))
@@ -210,7 +210,7 @@ def chama_paciente():
     busca_banco = Button(win_pacientes,
                          command=lambda: (win_pacientes, tree, codigo_input, name_input, cpf_input, fone_input),
                          bg='white', text='Buscar', anchor=CENTER)
-    busca_banco.place(x=1100, y=87, width=100, height=35)
+    busca_banco.place(x=980, y=87, width=100, height=35)
     win_pacientes.mainloop()
 
 
@@ -325,7 +325,7 @@ def evento_fechar(janela):
 def tela_login():
     janela_inicial = Tk()
     janela_inicial.attributes('-alpha', 0.0)
-    janela_inicial.geometry('1440x700')
+    janela_inicial.geometry('1300x700')
     centro.centralizar(janela_inicial)
     janela_inicial.attributes('-alpha', 1.0)
     janela_inicial.resizable(height=False, width=False)
@@ -344,7 +344,7 @@ def tela_login():
 
     panel_logo = Label(janela_inicial, image=logo,
                        bg=centro.from_rgb(blue_color))
-    panel_logo.place(x=1267, y=10)
+    panel_logo.place(x=1067, y=10)
 
     titulo = Label(janela_inicial, text='Intensive Care Unit Control', font=('Bahnschrift Condensed', 24),
                    bg=centro.from_rgb(blue_color))
