@@ -335,6 +335,8 @@ def tela_login():
     # ---------------------------- Img -----------------------------------------#
 
     logo = PhotoImage(file='../Imagens/LOGO_HOSP.png')
+    doacao = PhotoImage(file='../Imagens/urgencia.png')
+    info = PhotoImage(file='../Imagens/info-amamentacao.png')
 
     # ---------------------------- Labels -----------------------------------------#
 
@@ -342,11 +344,14 @@ def tela_login():
                       bg=centro.from_rgb(blue_color))
     retangulo.place(width=1440, height=250)
 
+    label_oculta = Label(janela_inicial, bg=centro.from_rgb(blue_color))
+    label_oculta.place(x=500, y=200)
+
     panel_logo = Label(janela_inicial, image=logo,
                        bg=centro.from_rgb(blue_color))
     panel_logo.place(x=1067, y=10)
 
-    titulo = Label(janela_inicial, text='Intensive Care Unit Control', font=('Bahnschrift Condensed', 24),
+    titulo = Label(janela_inicial, text='Registration Form', font=('Bahnschrift Condensed', 24),
                    bg=centro.from_rgb(blue_color))
     titulo.place(x=60, y=50)
 
@@ -365,7 +370,23 @@ def tela_login():
                       anchor=CENTER, borderwidth=2)
     cadastro.place(x=779, y=176, width=228, height=35)
 
+    image_oculta = Button(janela_inicial, bg=centro.from_rgb(blue_color), text='Tipos de Urgência',
+                          font=('Bahnschrift Condensed', 14), command=lambda: oculta(label_oculta, doacao))
+    image_oculta.place(x=63, y=400, width=228, height=35)
+    info_oculta = Button(janela_inicial, bg=centro.from_rgb(blue_color), text='Doação Leite',
+                         font=('Bahnschrift Condensed', 14), command=lambda: oculta_info(label_oculta, info))
+    info_oculta.place(x=63, y=500, width=228, height=35)
     janela_inicial.mainloop()
+
+
+def oculta(label, foto):
+    label['image'] = foto
+    label.place(x=550, y=350)
+
+
+def oculta_info(label, foto):
+    label['image'] = foto
+    label.place(x=500, y=250)
 
 
 tela_login()
