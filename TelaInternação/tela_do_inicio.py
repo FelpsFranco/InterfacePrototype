@@ -280,11 +280,6 @@ def tela_cria(janela):
     input_email = Entry(cadastronovo, font=('Inter', 12), bg='white')
     input_email.place(x=80, y=370, width=300, height=30)
 
-    # lista_de_leitos = ['UTI', 'EFG', 'PS']
-    # lista_dos_leitos = ttk.Combobox(cadastronovo, values=lista_de_leitos)
-    # lista_dos_leitos.set('Escolha')
-    # lista_dos_leitos.place(x=460, y=349)
-
     # ---------------------------- Cadastro Buttons ---------------------------------------#
 
     salvar = Button(cadastronovo, text='Salvar', command=lambda: (
@@ -335,17 +330,12 @@ def tela_login():
     # ---------------------------- Img -----------------------------------------#
 
     logo = PhotoImage(file='../Imagens/LOGO_HOSP.png')
-    doacao = PhotoImage(file='../Imagens/urgencia.png')
-    info = PhotoImage(file='../Imagens/info-amamentacao.png')
 
     # ---------------------------- Labels -----------------------------------------#
 
     retangulo = Label(janela_inicial,
                       bg=centro.from_rgb(blue_color))
     retangulo.place(width=1440, height=250)
-
-    label_oculta = Label(janela_inicial, bg=centro.from_rgb(blue_color))
-    label_oculta.place(x=500, y=200)
 
     panel_logo = Label(janela_inicial, image=logo,
                        bg=centro.from_rgb(blue_color))
@@ -371,22 +361,45 @@ def tela_login():
     cadastro.place(x=779, y=176, width=228, height=35)
 
     image_oculta = Button(janela_inicial, bg=centro.from_rgb(blue_color), text='Tipos de Urgência',
-                          font=('Bahnschrift Condensed', 14), command=lambda: oculta(label_oculta, doacao))
+                          font=('Bahnschrift Condensed', 14), command=oculta)
     image_oculta.place(x=63, y=400, width=228, height=35)
     info_oculta = Button(janela_inicial, bg=centro.from_rgb(blue_color), text='Doação Leite',
-                         font=('Bahnschrift Condensed', 14), command=lambda: oculta_info(label_oculta, info))
+                         font=('Bahnschrift Condensed', 14), command=oculta_info)
     info_oculta.place(x=63, y=500, width=228, height=35)
     janela_inicial.mainloop()
 
 
-def oculta(label, foto):
-    label['image'] = foto
-    label.place(x=550, y=350)
+def oculta():
+    urgencia = PhotoImage(file='../Imagens/urgencia.png')
+    abre_img = Toplevel()
+    abre_img.attributes('-alpha', 0.0)
+    abre_img.geometry('496x442')
+    centro.centralizar(abre_img)
+    abre_img.attributes('-alpha', 1.0)
+    abre_img.resizable(height=False, width=False)
+    abre_img.configure(bg=centro.from_rgb(blue_color))
+    abre_img.title('Imagem')
+    img = Label(abre_img, image=urgencia)
+    img.place(x=0, y=0)
+
+    abre_img.mainloop()
 
 
-def oculta_info(label, foto):
-    label['image'] = foto
-    label.place(x=500, y=250)
+def oculta_info():
+    info = PhotoImage(file='../Imagens/info-amamentacao.png')
+    abre_img = Toplevel()
+    abre_img.attributes('-alpha', 0.0)
+    abre_img.geometry('492x432')
+    centro.centralizar(abre_img)
+    abre_img.attributes('-alpha', 1.0)
+    abre_img.resizable(height=False, width=False)
+    abre_img.configure(bg=centro.from_rgb(blue_color))
+    abre_img.title('Imagem')
+    img = Label(abre_img, image=info)
+    img.place(x=0, y=0)
+
+    abre_img.mainloop()
+
 
 
 tela_login()
