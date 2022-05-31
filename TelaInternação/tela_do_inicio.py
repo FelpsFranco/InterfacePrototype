@@ -401,5 +401,4 @@ def oculta_info():
     abre_img.mainloop()
 
 
-
 tela_login()

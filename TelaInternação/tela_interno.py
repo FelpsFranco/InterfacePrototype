@@ -9,6 +9,7 @@ from BancoDeDados import acessobanco
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from Outros import envia
+from tela_do_inicio import tela_login
 
 
 blue_color = (197, 206, 237)
@@ -73,7 +74,15 @@ def internacoes():
                              bg='white', borderwidth=2, fg='black')
     rectangle_grafic.place(x=80, y=280)
 
+    voltar_inicio = Button(win_internos, text='Voltar', command=lambda: voltar_p_inicio(win_internos), font=('Bahnschrift Condensed', 20), bg='white', borderwidth=2, fg='black')
+    voltar_inicio.place(x=500, y=500)
+
     win_internos.mainloop()
+
+
+def voltar_p_inicio(janela):
+    janela.destroy()
+    tela_login()
 
 
 def cria_grafico(janela):
