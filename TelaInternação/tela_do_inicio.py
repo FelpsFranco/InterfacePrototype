@@ -10,7 +10,6 @@ blue_color = (197, 206, 237)
 
 
 def interno(janela):
-    janela.destroy()
     tela_interno.internacoes()
 
 
@@ -132,7 +131,7 @@ def busca_paciente(win_pacientes, tree, codigo_input, name_input, cpf_input, fon
 def chama_paciente():
     win_pacientes = Toplevel()
     win_pacientes.attributes('-alpha', 0.0)
-    win_pacientes.geometry('1300x1024')
+    win_pacientes.geometry('1300x768')
     centro.centralizar(win_pacientes)
     win_pacientes.attributes('-alpha', 1.0)
     win_pacientes.resizable(height=False, width=False)

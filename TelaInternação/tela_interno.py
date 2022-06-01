@@ -9,7 +9,6 @@ from BancoDeDados import acessobanco
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from Outros import envia
-from tela_do_inicio import tela_login
 
 
 blue_color = (197, 206, 237)
@@ -21,7 +20,7 @@ def internacoes():
     # ---------------------------- Config --------------------------------------- #
 
     acessobanco.cria_banco()
-    win_internos = Tk()
+    win_internos = Toplevel()
     win_internos.attributes('-alpha', 0.0)
     win_internos.geometry('1300x700')
     centro.centralizar(win_internos)
@@ -74,15 +73,7 @@ def internacoes():
                              bg='white', borderwidth=2, fg='black')
     rectangle_grafic.place(x=80, y=280)
 
-    voltar_inicio = Button(win_internos, text='Voltar', command=lambda: voltar_p_inicio(win_internos), font=('Bahnschrift Condensed', 20), bg='white', borderwidth=2, fg='black')
-    voltar_inicio.place(x=500, y=500)
-
     win_internos.mainloop()
-
-
-def voltar_p_inicio(janela):
-    janela.destroy()
-    tela_login()
 
 
 def cria_grafico(janela):
@@ -296,7 +287,7 @@ def transferencia(input_codigo, input_leito, input_medico, lista_dos_leitos, jan
 def tela_cria(janela):
     # ---------------------------- Tela Config ---------------------------------------#
     janela.destroy()
-    cadastronovo = Tk()
+    cadastronovo = Toplevel()
     cadastronovo.attributes('-alpha', 0.0)
     cadastronovo.geometry('800x600')
     centro.centralizar(cadastronovo)
@@ -403,7 +394,7 @@ def adiciona_novo(janela, input_name, input_cpf, input_fone, input_endereco, inp
 
 def internar_paciente(janela):
     janela.destroy()
-    win_pacientes = Tk()
+    win_pacientes = Toplevel()
     win_pacientes.attributes('-alpha', 0.0)
     win_pacientes.geometry('1300x1024')
     centro.centralizar(win_pacientes)
@@ -501,6 +492,7 @@ def internar_paciente(janela):
     tree.heading("#5", text="Endereço", anchor='w')
     tree.heading("#6", text="E-mail", anchor='w')
     tree.heading("#7", text="Data Cadastro", anchor='w')
+    win_pacientes.protocol("WM_DELETE_WINDOW", lambda: evento_fechar(win_pacientes))
 
     win_pacientes.mainloop()
 
