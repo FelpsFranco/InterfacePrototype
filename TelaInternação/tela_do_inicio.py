@@ -365,7 +365,47 @@ def tela_login():
     info_oculta = Button(janela_inicial, bg=centro.from_rgb(blue_color), text='Doação Leite',
                          font=('Bahnschrift Condensed', 14), command=oculta_info)
     info_oculta.place(x=63, y=500, width=228, height=35)
+
+    busca_rapida_text = Label(janela_inicial, text='CPF', bg=centro.from_rgb(blue_color),
+                              font=('Bahnschrift Condensed', 14))
+    busca_rapida_text.place(x=63, y=300)
+    busca_rapida_input = Entry(janela_inicial, bg='white',
+                               font=('Bahnschrift Condensed', 14))
+    busca_rapida_input.place(x=105, y=305, width=200, height=21)
+    busca_rapida_button = Button(janela_inicial, text='Busca Rápida', bg=centro.from_rgb(blue_color), command=lambda: (busca_rapida(busca_rapida_input)))
+    busca_rapida_button.place(x=63, y=350)
+
     janela_inicial.mainloop()
+
+
+def busca_rapida(busca_rapida_input):
+    cpf_input = busca_rapida_input.get()
+    janela_busca = Tk()
+    janela_busca.attributes('-alpha', 0.0)
+    janela_busca.geometry('1300x768')
+    centro.centralizar(janela_busca)
+    janela_busca.attributes('-alpha', 1.0)
+    janela_busca.resizable(height=False, width=False)
+    janela_busca.configure(bg=centro.from_rgb(blue_color))
+    janela_busca.title('Busca Rápida')
+
+    tree = ttk.Treeview(janela_busca,
+                        column=("Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"),
+                        show='headings')
+    scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
+    tree.configure(yscrollcommand=scrollbar.set)
+    tree.place(x=0, y=149, width=1300, height=768)
+    tree.heading("#1", text="Código", anchor='w')
+    tree.heading("#2", text="Nome", anchor='w')
+    tree.heading("#3", text="CPF", anchor='w')
+    tree.heading("#4", text="Telefone", anchor='w')
+    tree.heading("#5", text="Endereço", anchor='w')
+    tree.heading("#6", text="E-mail", anchor='w')
+    tree.heading("#7", text="Data Cadastro", anchor='w')
+    rows = acessobanco.filtro_cpf(cpf_input)
+    for row in rows:
+        tree.insert("", END, values=row)
+    janela_busca.mainloop()
 
 
 def oculta():

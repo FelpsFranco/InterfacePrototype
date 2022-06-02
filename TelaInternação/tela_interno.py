@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from Outros import envia
 
-
 blue_color = (197, 206, 237)
 purple_color = (241, 242, 250)
 data_atual = datetime.datetime
@@ -50,7 +49,8 @@ def internacoes():
     # ---------------------------- Buttons -----------------------------------------#
 
     internar = Button(win_internos, bg=centro.from_rgb(blue_color), text='Internar',
-                      font=('Bahnschrift Condensed', 14), command=lambda: internar_paciente(win_internos), anchor=CENTER, borderwidth=2)
+                      font=('Bahnschrift Condensed', 14), command=lambda: internar_paciente(win_internos),
+                      anchor=CENTER, borderwidth=2)
     internar.place(x=23, y=176, width=228, height=35)
 
     labo = Button(win_internos, bg=centro.from_rgb(blue_color), text='Cadastrar',
@@ -289,7 +289,7 @@ def tela_cria(janela):
     janela.destroy()
     cadastronovo = Toplevel()
     cadastronovo.attributes('-alpha', 0.0)
-    cadastronovo.geometry('800x600')
+    cadastronovo.geometry('1300x700')
     centro.centralizar(cadastronovo)
     cadastronovo.attributes('-alpha', 1.0)
     cadastronovo.resizable(height=False, width=False)
@@ -306,7 +306,7 @@ def tela_cria(janela):
     rectangle_logo.place(width=1440, height=150)
 
     panel = Label(cadastronovo, image=imagem, bg='white')
-    panel.place(x=600, y=10)
+    panel.place(x=1100, y=10)
 
     info = Label(cadastronovo, text='CADASTRO DE INTERNO', bg='white', font=('Bahnschrift Condensed', 20))
     info.place(x=170, y=70)
@@ -333,6 +333,14 @@ def tela_cria(janela):
                        bg=centro.from_rgb(blue_color))
     text_email.place(x=20, y=375, width=65, height=19)
 
+    text_mae = Label(cadastronovo, text='Nome da Mãe', font=('Inter', 10),
+                     bg=centro.from_rgb(blue_color))
+    text_mae.place(x=780, y=200)
+
+    nasc_data_text = Label(cadastronovo, text='Data de Nasc.', font=('Inter', 10),
+                           bg=centro.from_rgb(blue_color))
+    nasc_data_text.place(x=780, y=285)
+
     # ---------------------------- Cadastro Inputs ---------------------------------------#
 
     input_name = Entry(cadastronovo, font=('Inter', 12), bg='white')
@@ -349,6 +357,14 @@ def tela_cria(janela):
 
     input_email = Entry(cadastronovo, font=('Inter', 12), bg='white')
     input_email.place(x=80, y=370, width=300, height=30)
+
+    input_mae = Entry(cadastronovo, font=('Inter', 10),
+                      bg='white')
+    input_mae.place(x=870, y=195, width=300, height=30)
+
+    nasc_data_input = Entry(cadastronovo, font=('Inter', 10),
+                            bg='white')
+    nasc_data_input.place(x=870, y=280, width=300, height=30)
 
     # lista_de_leitos = ['UTI', 'EFG', 'PS']
     # lista_dos_leitos = ttk.Combobox(cadastronovo, values=lista_de_leitos)
