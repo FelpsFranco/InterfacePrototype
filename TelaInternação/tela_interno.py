@@ -143,7 +143,6 @@ def cria_grafico(janela):
     ax3.axis('equal')
 
 
-
 def mostra_leitos(janela):
     # ----------------------------- Cria Tela ---------------------------------------#
 

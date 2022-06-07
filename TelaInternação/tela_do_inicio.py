@@ -9,7 +9,7 @@ import tkinter.messagebox
 blue_color = (197, 206, 237)
 
 
-def interno(janela):
+def interno():
     tela_interno.internacoes()
 
 
@@ -375,7 +375,7 @@ def tela_login():
     busca_rapida_button = Button(janela_inicial, text='Busca Rápida', bg=centro.from_rgb(blue_color), command=lambda: (busca_rapida(busca_rapida_input)))
     busca_rapida_button.place(x=63, y=350)
 
-    tree = ttk.Treeview(janela_inicial, column=("Column1"), show='headings')
+    tree = ttk.Treeview(janela_inicial, column="Column1", show='headings')
     scrollbar = ttk.Scrollbar(orient="vertical", command=tree.yview)
     tree.configure(yscrollcommand=scrollbar.set)
     tree.place(x=420, y=250, width=800, height=400)
