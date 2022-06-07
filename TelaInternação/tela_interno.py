@@ -69,9 +69,17 @@ def internacoes():
 
     cria_grafico(win_internos)
 
-    rectangle_grafic = Label(win_internos, text='Gráfico de Leitos', font=('Bahnschrift Condensed', 20),
+    rectangle_grafic = Label(win_internos, text='Total Leitos', font=('Bahnschrift Condensed', 20),
                              bg='white', borderwidth=2, fg='black')
-    rectangle_grafic.place(x=80, y=280)
+    rectangle_grafic.place(x=110, y=280)
+
+    rectangle_grafic = Label(win_internos, text='Leitos UTI', font=('Bahnschrift Condensed', 20),
+                             bg='white', borderwidth=2, fg='black')
+    rectangle_grafic.place(x=550, y=280)
+
+    rectangle_grafic = Label(win_internos, text='Leitos PS', font=('Bahnschrift Condensed', 20),
+                             bg='white', borderwidth=2, fg='black')
+    rectangle_grafic.place(x=1000, y=280)
 
     win_internos.mainloop()
 
@@ -99,6 +107,41 @@ def cria_grafico(janela):
     sizes = [leitos_vazios, internos]
     ax1.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
     ax1.axis('equal')
+
+    rowsb = acessobanco.graficob()
+    uti_total = 15
+    internos_uti = 0
+    for rowb in rowsb:
+        internos_uti = internos_uti + 1
+    uti_vazio = uti_total - internos_uti
+
+    figura2 = plt.Figure(figsize=(6, 6), dpi=60)
+    ax2 = figura2.add_subplot(111)
+
+    canva2 = FigureCanvasTkAgg(figura2, janela)
+    canva2.get_tk_widget().place(x=400, y=350)
+    labels1 = 'Leitos Vazio', 'Internos'
+    sizes1 = [uti_vazio, internos_uti]
+    ax2.pie(sizes1, labels=labels1, autopct='%1.1f%%', shadow=True, startangle=90)
+    ax2.axis('equal')
+
+    rowsc = acessobanco.graficoc()
+    ps_total = 5
+    internos_ps = 0
+    for rowc in rowsc:
+        internos_ps = internos_ps + 1
+    ps_vazio = ps_total - internos_ps
+
+    figura3 = plt.Figure(figsize=(6, 6), dpi=60)
+    ax3 = figura3.add_subplot(111)
+
+    canva3 = FigureCanvasTkAgg(figura3, janela)
+    canva3.get_tk_widget().place(x=850, y=350)
+    labels2 = 'Leitos Vazio', 'Internos'
+    sizes2 = [ps_vazio, internos_ps]
+    ax3.pie(sizes2, labels=labels2, autopct='%1.1f%%', shadow=True, startangle=90)
+    ax3.axis('equal')
+
 
 
 def mostra_leitos(janela):
@@ -159,7 +202,7 @@ def muda_interno(leitos_ocupados, codigo_input):
     acessobanco.upd_interno(muda_status)
     email = acessobanco.email_info(muda_status)
     nome = acessobanco.nome_info(muda_status)
-    envia.libera_paciente(email, nome, data_atual)
+    envia.libera_paciente(email, nome)
     leitos_ocupados.destroy()
     internacoes()
 

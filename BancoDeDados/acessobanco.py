@@ -35,6 +35,22 @@ def grafico():
     return rows
 
 
+def graficob():
+    cur = conn.cursor()
+    cur.execute("""
+                            SELECT * FROM cadastro t where t.local = 'UTI' """)
+    rows = cur.fetchall()
+    return rows
+
+
+def graficoc():
+    cur = conn.cursor()
+    cur.execute("""
+                                SELECT * FROM cadastro t where t.local = 'PS' """)
+    rows = cur.fetchall()
+    return rows
+
+
 def verifica_novo(cpf):
     cursor.execute("""
                     SELECT cpf FROM cadastro t where t.cpf = ? """, (cpf,))
